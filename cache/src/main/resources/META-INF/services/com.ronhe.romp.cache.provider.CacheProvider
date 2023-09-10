@@ -1,0 +1,2 @@
+com.ronhe.romp.cache.provider.ehcache.EhcacheProvider
+com.ronhe.romp.cache.provider.redis.RedisCacheProvider

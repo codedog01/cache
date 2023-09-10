@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/cache
+        http://www.springframework.org/schema/cache/spring-cache.xsd ">
+
+    <!-- 缓存配置 -->
+    <bean id="cacheConfig" class="com.ronhe.romp.cache.config.CacheConfig">
+        <property name="activeCacheType" value="redis"/>
+        <property name="enableCacheListener" value="true"/>
+    </bean>
+
+    <!-- 缓存监听1 -->
+    <bean id="cacheListener1" class="com.ronhe.romp.cache.listener.DefaultCacheListener">
+    </bean>
+
+    <!-- 缓存监听2 -->
+    <bean id="cacheListener2" class="com.ronhe.romp.cache.listener.SyncCacheListener">
+    </bean>
+
+    <!-- 复合缓存监听 -->
+    <bean id="cacheListener" class="com.ronhe.romp.cache.listener.MultiCacheListener">
+        <constructor-arg name="cacheListenerList">
+            <list>
+                <ref bean="cacheListener1"/>
+                <ref bean="cacheListener2"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- 缓存工厂 -->
+    <bean id="cacheFactory" class="com.ronhe.romp.cache.factory.DefaultCacheFactory" init-method="loadCacheProvider">
+        <property name="cacheListener" ref="cacheListener"/>
+    </bean>
+
+    <!-- 缓存管理器 -->
+    <bean id="cacheManager" class="com.ronhe.romp.cache.spring.DefaultCacheManagerFactoryBean">
+        <constructor-arg name="cacheFactory" ref="cacheFactory"/>
+        <constructor-arg name="cacheConfig" ref="cacheConfig"/>
+    </bean>
+</beans>

@@ -1,0 +1,25 @@
+redis:
+  model: cluster #redis服务模式 单机single 集群sentinel 集群cluster
+
+  #单机模式
+  singleHost: 121.43.163.177
+  singlePort: 6277
+  singlePassword: root123.
+  singleConnectionTimeout: 100000
+  #集群：主从sentinel模式
+  sentinelMasterPassword: root123.
+  # 主节点名称
+  sentinelMasterName: mymaster
+  sentinelNodes: 121.43.163.177:26379,121.43.163.177:26380,121.43.163.177:26381
+
+  # 集群：cluster模式
+  clusterNodes: 121.43.163.177:6379 ,121.43.163.177:6380 ,121.43.163.177:6381 ,121.43.163.177:6382 ,121.43.163.177:6383 ,121.43.163.177:6384
+  # #最大重定向次数（由于集群中数据存储在多个节点,所以在访问数据时需要通过转发进行数据定位）
+  clusterMaxRedirects: 2
+  clusterPassword: root123.
+  #连接池
+  jedisPoolMaxIdle: 10   # 连接池中的最大空闲连接
+  jedisPoolMaxWait: -1   # 连接池最大阻塞等待时间（使用负值表示没有限制）
+  jedisPoolMaxActive: 8   # 连接池最大连接数（使用负值表示没有限制）
+  jedisPoolMinIdle: 10   # 连接池中的最小空闲连接
+
